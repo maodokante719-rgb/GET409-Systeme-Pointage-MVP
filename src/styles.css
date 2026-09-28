@@ -162,3 +162,14 @@
     color: var(--color-foreground);
   }
 }
+
+@utility bg-hero-gradient {
+  background-image: var(--gradient-hero);
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
