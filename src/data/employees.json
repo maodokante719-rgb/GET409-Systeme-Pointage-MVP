@@ -1,0 +1,11 @@
+{
+  "week": "S38-2026",
+  "employees": [
+    { "id": 1, "name": "Awa Diop", "site": "Plateau (siège)", "siteKey": "plateau", "arrival": "07h58", "status": "present", "note": "" },
+    { "id": 2, "name": "Moussa Fall", "site": "Pikine (agence)", "siteKey": "pikine", "arrival": "08h31", "status": "late", "note": "+31 min" },
+    { "id": 3, "name": "Aïssatou Ba", "site": "Pikine (agence)", "siteKey": "pikine", "arrival": "07h55", "status": "present", "note": "" },
+    { "id": 4, "name": "Ibrahima Sarr", "site": "Diamniadio (dépôt)", "siteKey": "diamniadio", "arrival": "—", "status": "absent", "note": "" },
+    { "id": 5, "name": "Cheikh Ndiaye", "site": "Terrain — client Sonatel, Mermoz", "siteKey": "terrain", "arrival": "08h05", "status": "mission", "note": "validée par le chef d'équipe" },
+    { "id": 6, "name": "Fatou Gueye", "site": "Plateau (siège)", "siteKey": "plateau", "arrival": "08h04", "status": "present", "note": "" }
+  ]
+}
