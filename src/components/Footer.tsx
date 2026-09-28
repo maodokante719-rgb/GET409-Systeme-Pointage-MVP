@@ -1,28 +1,50 @@
 import { Link } from "@tanstack/react-router";
+import { Logo } from "./Navbar";
 
 export function Footer() {
   return (
-    <footer className="mt-20 border-t border-border bg-secondary/60">
-      <div className="mx-auto grid max-w-6xl gap-6 px-4 py-10 text-sm text-muted-foreground md:grid-cols-3">
-        <div>
-          <p className="font-semibold text-foreground">⏱️ Systeme-Pointage</p>
-          <p className="mt-2">
-            Données traitées conformément à la loi sénégalaise n° 2008-12 relative à la protection
-            des données à caractère personnel (CDP).
+    <footer className="border-t border-border bg-background">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 text-sm md:grid-cols-12">
+        <div className="md:col-span-4">
+          <Logo />
+          <p className="mt-4 max-w-xs text-muted-foreground">
+            Pointage mobile pour les PME multi-sites de Dakar : siège, agences, dépôts et équipes terrain.
           </p>
         </div>
-        <div>
-          <p className="font-semibold text-foreground">Contact</p>
-          <p className="mt-2">Immeuble Fahd, Boulevard Djily Mbaye, Plateau, Dakar, Sénégal</p>
-          <p>+221 33 800 00 00 · contact@systeme-pointage.sn</p>
-          <p className="mt-1 text-xs">(coordonnées fictives de démonstration)</p>
+        <div className="md:col-span-2">
+          <p className="font-medium text-foreground">Produit</p>
+          <ul className="mt-3 space-y-2 text-muted-foreground">
+            <li><Link to="/pointages" className="hover:text-foreground">Pointages du jour</Link></li>
+            <li>Export paie</li>
+            <li>Pointage mission</li>
+          </ul>
         </div>
-        <div className="md:text-right">
-          <Link to="/contact" className="font-medium text-primary hover:underline">
-            Demander une démo
-          </Link>
-          <p className="mt-2">© 2026 Systeme-Pointage</p>
+        <div className="md:col-span-2">
+          <p className="font-medium text-foreground">Entreprise</p>
+          <ul className="mt-3 space-y-2 text-muted-foreground">
+            <li>À propos</li>
+            <li><Link to="/contact" className="hover:text-foreground">Demander une démo</Link></li>
+          </ul>
         </div>
+        <div className="md:col-span-2">
+          <p className="font-medium text-foreground">Mentions légales</p>
+          <p className="mt-3 text-muted-foreground">
+            Données traitées selon la loi n° 2008-12 sur la protection des données personnelles — CDP.
+          </p>
+        </div>
+        <div className="md:col-span-2">
+          <p className="font-medium text-foreground">Contact</p>
+          <ul className="mt-3 space-y-2 text-muted-foreground">
+            <li>+221 33 800 00 00</li>
+            <li>contact@systeme-pointage.sn</li>
+            <li>Plateau, Dakar</li>
+          </ul>
+        </div>
+      </div>
+      <div className="border-t border-border">
+        <p className="mx-auto max-w-7xl px-5 py-5 text-xs text-muted-foreground">
+          © 2026 Systeme-Pointage · Données de démonstration fictives
+        </p>
       </div>
     </footer>
   );
