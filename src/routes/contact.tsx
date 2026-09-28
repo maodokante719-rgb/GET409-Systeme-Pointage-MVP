@@ -74,7 +74,7 @@ function Contact() {
           <form onSubmit={onSubmit} noValidate className="mt-8 space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
               {fields.map((f) => (
-                <div key={f.name} className={f.name === "message" ? "md:col-span-2" : ""}>
+                <div key={f.name}>
                   <label
                     htmlFor={f.name}
                     className="block text-sm font-medium text-foreground"
@@ -103,7 +103,9 @@ function Contact() {
                 rows={5}
                 className="mt-1.5 w-full rounded-lg border border-input bg-card px-3 py-2.5 text-sm outline-none transition-shadow focus:border-primary focus:ring-2 focus:ring-ring/30"
               />
-              {errors.message && <p className="mt-1 text-xs text-destructive">{errors.message}</p>}
+              {errors["message"] && (
+                <p className="mt-1 text-xs text-destructive">{errors["message"]}</p>
+              )}
             </div>
 
             <button
