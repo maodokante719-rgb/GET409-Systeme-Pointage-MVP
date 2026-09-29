@@ -1,41 +1,21 @@
-import type { ReactNode } from "react";
-
-export function PhoneFrame({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return (
-    <div className={`mx-auto w-[280px] rounded-[2.2rem] border border-border bg-foreground p-2.5 ${className}`}>
-      <div className="overflow-hidden rounded-[1.7rem] bg-background">
-        <div className="flex items-center justify-between px-5 pt-3 text-[11px] font-medium text-foreground">
-          <span>07:58</span>
-          <span className="h-4 w-16 rounded-full bg-foreground" />
-          <span>4G</span>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
-}
-
 export function PhoneMockup() {
   return (
-    <PhoneFrame>
-      <div className="px-5 pb-6 pt-5">
-        <p className="text-xs text-muted-foreground">Mardi 16 septembre</p>
-        <p className="mt-1 text-lg font-semibold text-foreground">Bonjour Moussa</p>
-        <div className="mt-6 rounded-lg border border-border p-4 text-center">
-          <p className="text-4xl font-semibold tabular-nums tracking-tight text-foreground">07:58</p>
-          <p className="mt-2 inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-            <span className="h-1.5 w-1.5 rounded-full bg-status-present" />
-            Agence de Pikine · position vérifiée
+    <div className="mx-auto w-[240px] md:w-[280px]">
+      <div className="relative aspect-[280/580] rounded-[44px] border-[10px] border-phone-frame bg-phone-screen shadow-[var(--shadow-phone)]">
+        <span className="absolute left-1/2 top-2 h-5 w-24 -translate-x-1/2 rounded-full bg-phone-frame" aria-hidden />
+        <div className="flex h-full flex-col items-center px-5 pb-6 pt-12 text-center">
+          <p className="text-base font-semibold text-strong">Bonjour Moussa</p>
+          <p className="mt-1 text-xs text-muted-foreground">Agence de Pikine</p>
+          <p className="mt-10 text-5xl font-semibold tabular-nums tracking-tight text-strong">07:58</p>
+          <p className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-status-present">
+            <span className="h-1.5 w-1.5 rounded-full bg-status-present" /> Position vérifiée
           </p>
-        </div>
-        <button className="mt-5 w-full rounded-lg bg-primary py-4 text-sm font-semibold text-primary-foreground">
-          Pointer mon arrivée
-        </button>
-        <div className="mt-5 space-y-2 border-t border-border pt-4 text-xs">
-          <div className="flex justify-between text-muted-foreground"><span>Hier</span><span className="tabular-nums">08:12 — 17:01</span></div>
-          <div className="flex justify-between text-muted-foreground"><span>Ven. 12/09</span><span className="tabular-nums">07:58 — 17:00</span></div>
+          <button type="button" className="mt-auto flex aspect-square w-36 items-center justify-center rounded-full bg-primary px-4 text-xs font-bold uppercase tracking-[0.12em] text-primary-foreground transition-transform hover:scale-[1.03] md:w-40">
+            Pointer l'arrivée
+          </button>
+          <p className="mt-auto pt-6 text-[11px] text-muted-foreground">Fonctionne aussi sans réseau</p>
         </div>
       </div>
-    </PhoneFrame>
+    </div>
   );
 }
