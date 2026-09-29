@@ -1,46 +1,43 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { MapPin, Mail, Phone, Clock } from "lucide-react";
 import { ContactForm } from "@/components/ContactForm";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — Demander une démo de Systeme-Pointage" },
-      { name: "description", content: "Demandez une démo de 30 min du pointage mobile multi-sites, en présentiel à Dakar ou en visio." },
-      { property: "og:title", content: "Contact — Systeme-Pointage" },
-      { property: "og:description", content: "Démo de 30 min, en présentiel à Dakar ou en visio." },
+      { title: "Contact — Demander une démo de Pointage Sûr" },
+      { name: "description", content: "Parlons de vos sites. Réponse sous 24 h ouvrées pour organiser une démonstration à Dakar." },
+      { property: "og:title", content: "Contact — Pointage Sûr" },
+      { property: "og:description", content: "Organisez une démonstration du pointage mobile sur vos sites." },
     ],
   }),
   component: Contact,
 });
 
+const info = [
+  { i: MapPin, t: "Pointage Sûr — Immeuble Kébé, Avenue Léopold Sédar Senghor, Plateau, Dakar" },
+  { i: Mail, t: "contact@pointage-sur.sn" },
+  { i: Phone, t: "+221 33 800 00 00" },
+  { i: Clock, t: "Lun–Ven · 8 h 00 – 17 h 30" },
+];
+
 function Contact() {
   return (
-    <div className="mx-auto grid max-w-7xl gap-14 px-5 py-14 md:grid-cols-12 md:py-20">
+    <div className="mx-auto grid max-w-[1200px] gap-10 px-5 py-12 md:grid-cols-12 md:py-16">
       <section className="md:col-span-7">
-        <h1 className="text-3xl font-semibold text-foreground md:text-4xl">Demander une démo</h1>
-        <p className="mt-3 max-w-lg text-muted-foreground">
-          Indiquez-nous comment vos équipes sont réparties. Nous vous montrons le pointage sur vos propres sites.
-        </p>
-        <div className="mt-10"><ContactForm /></div>
+        <h1 className="text-3xl font-bold text-strong md:text-4xl">Parlons de vos sites</h1>
+        <p className="mt-3 max-w-lg text-muted-foreground">Nous revenons vers vous sous 24 h ouvrées pour organiser une démonstration.</p>
+        <div className="card-surface mt-8 p-6 md:p-8"><ContactForm /></div>
       </section>
-      <aside className="space-y-8 text-sm md:col-span-4 md:col-start-9">
-        <div>
-          <p className="font-medium text-foreground">Adresse</p>
-          <p className="mt-1.5 text-muted-foreground">Immeuble Fahd, Boulevard Djily Mbaye<br />Plateau, Dakar</p>
+      <aside className="md:col-span-5 md:pt-[104px]">
+        <div className="card-surface p-6 md:p-8">
+          <p className="eyebrow text-primary">Nos coordonnées</p>
+          <ul className="mt-6 space-y-5 text-sm">
+            {info.map(({ i: Icon, t }) => (
+              <li key={t} className="flex gap-3 text-foreground"><Icon size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-muted-foreground" />{t}</li>
+            ))}
+          </ul>
         </div>
-        <div>
-          <p className="font-medium text-foreground">Téléphone et e-mail</p>
-          <p className="mt-1.5 text-muted-foreground">+221 33 800 00 00<br />contact@systeme-pointage.sn</p>
-        </div>
-        <div>
-          <p className="font-medium text-foreground">Horaires</p>
-          <p className="mt-1.5 text-muted-foreground">Lundi – vendredi, 8h – 18h</p>
-        </div>
-        <div className="rounded-lg border border-border bg-secondary p-5">
-          <p className="font-semibold text-foreground">Démo de 30 min</p>
-          <p className="mt-1.5 text-muted-foreground">En présentiel à Dakar ou en visio, avec vos sites et vos horaires.</p>
-        </div>
-        <p className="text-xs text-muted-foreground">Coordonnées fictives de démonstration.</p>
       </aside>
     </div>
   );
