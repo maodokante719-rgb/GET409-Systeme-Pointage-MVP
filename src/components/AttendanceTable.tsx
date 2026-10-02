@@ -14,7 +14,7 @@ function Avatar({ initials }: { initials: string }) {
 }
 
 export function AttendanceTable({ rows, onHistory }: { rows: Employee[]; onHistory: (e: Employee) => void }) {
-  if (!rows.length) return <p className="p-8 text-center text-sm text-muted-foreground">Aucun employé pour ce site.</p>;
+  if (!rows.length) return <p className="p-8 text-center text-sm text-muted-foreground">Aucun pointage pour ce site aujourd'hui.</p>;
   return (
     <>
       <table className="hidden w-full text-sm md:table">

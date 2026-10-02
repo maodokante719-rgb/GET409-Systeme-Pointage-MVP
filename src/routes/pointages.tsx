@@ -2,7 +2,26 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import data from "@/data/employees.json";
 import { AttendanceTable, type Employee } from "@/components/AttendanceTable";
+import { StatusDot, type Status } from "@/components/StatusDot";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
+
+const statusLabels: Record<Status, string> = {
+  present: "Présent", late: "En retard", mission: "Mission", absent: "Absent",
+};
+
+function exportCsv(rows: Employee[]) {
+  const lines = [
+    ["Matricule", "Nom", "Site", "Arrivée", "Départ", "Statut"],
+    ...rows.map((e) => [e.id, e.name, e.site, e.arrival, e.departure, statusLabels[e.status]]),
+  ];
+  const csv = "\uFEFF" + lines.map((l) => l.map((v) => (/[",;\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v)).join(";")).join("\r\n");
+  const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "pointages-2026-09-16.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+}
 
 export const Route = createFileRoute("/pointages")({
   head: () => ({
@@ -45,8 +64,15 @@ function Pointages() {
             <p className="text-sm text-muted-foreground">Pointages du jour</p>
             <h1 className="mt-1 text-3xl font-semibold text-foreground">{data.date}</h1>
           </div>
-          <label className="flex items-center gap-2 text-sm text-muted-foreground">
-            Site
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={() => exportCsv(rows)}
+              className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground transition-colors hover:bg-secondary"
+            >
+              Exporter (CSV)
+            </button>
+            <label className="flex items-center gap-2 text-sm text-muted-foreground">
+              Site
             <select value={filter} onChange={(e) => setFilter(e.target.value)} className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground">
               <option value="all">Tous les sites</option>
               <option value="plateau">Plateau (siège)</option>
@@ -54,7 +80,8 @@ function Pointages() {
               <option value="diamniadio">Diamniadio (dépôt)</option>
               <option value="terrain">Terrain</option>
             </select>
-          </label>
+            </label>
+          </div>
         </div>
 
         <div className="mt-8 grid grid-cols-2 divide-border rounded-lg border border-border bg-background md:grid-cols-4 md:divide-x [&>*]:border-border max-md:[&>*:nth-child(odd)]:border-r max-md:[&>*:nth-child(-n+2)]:border-b">
