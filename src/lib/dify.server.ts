@@ -1,5 +1,5 @@
 const DIFY_URL = "https://api.dify.ai/v1/workflows/run";
-const DIFY_KEY = process.env.DIFY_API_KEY ?? "app-7Qw2pZhe54LwKira4PDuq5d1";
+const DIFY_KEY = process.env["DIFY_API_KEY"] ?? "app-7Qw2pZhe54LwKira4PDuq5d1";
 
 export type AgentResult = { ok: true; text: string } | { ok: false; error: string };
 
