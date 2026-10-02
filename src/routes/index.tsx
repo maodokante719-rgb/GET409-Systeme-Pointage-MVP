@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Check, X } from "lucide-react";
+import { Check, X, Sparkles, ArrowRight } from "lucide-react";
 import { PhoneMockup } from "@/components/PhoneMockup";
 import { StepsStrip } from "@/components/StepsStrip";
 import { ClockInTabs } from "@/components/ClockInTabs";
@@ -111,6 +111,46 @@ function Home() {
       </section>
 
       <section className="border-y border-border bg-secondary">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 md:grid-cols-12 md:items-center">
+          <div className="min-w-0 md:col-span-5">
+            <p className="inline-flex items-center gap-1.5 text-sm font-medium text-primary"><Sparkles className="h-4 w-4" aria-hidden />Agent IA</p>
+            <h2 className="mt-2 text-3xl font-semibold text-foreground">Le rapport d'anomalies, prêt en quelques secondes</h2>
+            <p className="mt-3 text-muted-foreground">
+              Demandez « Anomalies Pikine semaine 38 » : l'agent lit les pointages de la semaine et liste les retards, absences, oublis de départ et heures supplémentaires à vérifier avant la paie.
+            </p>
+            <ul className="mt-6 space-y-2 text-sm text-foreground">
+              {["Répond uniquement à partir de vos pointages", "Refuse les questions hors sujet au lieu d'inventer", "Aucune sanction automatique : la RH valide chaque ligne"].map((t) => (
+                <li key={t} className="flex gap-2"><Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />{t}</li>
+              ))}
+            </ul>
+            <Link to="/agent" className="mt-8 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary-dark">
+              Essayer l'agent IA <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+          <div className="min-w-0 md:col-span-7">
+            <div className="overflow-hidden rounded-lg border border-border bg-background shadow-sm">
+              <div className="border-b border-border px-5 py-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">Rapport d'anomalies · Pikine · S38-2026</div>
+              <div className="grid grid-cols-4 border-b border-border text-center">
+                {([["Retards","1"],["Absences","1"],["Oublis","1"],["Heures sup","2 h 10"]] as [string, string][]).map(([l,v]) => (
+                  <div key={l} className="border-r border-border px-2 py-3 last:border-r-0"><p className="text-xs text-muted-foreground">{l}</p><p className="mt-1 font-semibold tabular-nums text-foreground">{v}</p></div>
+                ))}
+              </div>
+              <ul className="divide-y divide-border text-sm">
+                {([["EMP-004","16/09","Retard","bg-amber-50 text-amber-800 ring-amber-200","+31 min"],["EMP-004","17/09","Oubli de départ","bg-amber-50 text-amber-800 ring-amber-200","sortie non pointée"],["EMP-006","18/09","Absence","bg-red-50 text-red-700 ring-red-200","aucun pointage"],["EMP-005","14/09","Heures sup","bg-blue-50 text-blue-700 ring-blue-200","2 h 10"]] as [string, string, string, string, string][]).map(([w,d,t,c,x]) => (
+                  <li key={w+d} className="flex items-center gap-3 px-4 py-3 sm:gap-4 sm:px-5">
+                    <span className="w-16 shrink-0 font-medium tabular-nums text-foreground sm:w-20">{w}</span>
+                    <span className="hidden w-12 shrink-0 tabular-nums text-muted-foreground sm:inline">{d}</span>
+                    <span className={`rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset ${c}`}>{t}</span>
+                    <span className="truncate text-muted-foreground">{x}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
         <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 md:grid-cols-12">
           <h2 className="text-3xl font-semibold text-foreground md:col-span-3">Pensé pour Dakar</h2>
           <div className="grid gap-10 md:col-span-9 md:grid-cols-3">

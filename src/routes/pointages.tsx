@@ -4,7 +4,8 @@ import data from "@/data/employees.json";
 import { AttendanceTable, type Employee } from "@/components/AttendanceTable";
 import { StatusDot, type Status } from "@/components/StatusDot";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
-import { AnomalyAgent } from "@/components/AnomalyAgent";
+import { Link } from "@tanstack/react-router";
+import { Sparkles, ArrowRight } from "lucide-react";
 
 const statusLabels: Record<Status, string> = {
   present: "Présent", late: "En retard", mission: "Mission", absent: "Absent",
@@ -104,8 +105,18 @@ function Pointages() {
           <AttendanceTable rows={rows} onHistory={setSelected} />
         </div>
 
-        <AnomalyAgent />
-
+        <div className="mt-8 flex flex-col gap-4 rounded-lg border border-border bg-background p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex gap-3">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary"><Sparkles className="h-5 w-5" aria-hidden /></span>
+            <div>
+              <p className="font-semibold text-foreground">Rapport d'anomalies de la semaine</p>
+              <p className="mt-0.5 text-sm text-muted-foreground">L'agent IA liste les retards, absences et heures supplémentaires à vérifier, site par site.</p>
+            </div>
+          </div>
+          <Link to="/agent" search={{ q: "Anomalies Pikine semaine 38" }} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary-dark">
+            Ouvrir l'agent IA <ArrowRight className="h-4 w-4" aria-hidden />
+          </Link>
+        </div>
 
         <p className="mt-6 rounded-lg border border-border bg-background px-4 py-3 text-sm text-muted-foreground">
           La position n'est vérifiée qu'au moment du pointage. Aucun suivi GPS continu.
