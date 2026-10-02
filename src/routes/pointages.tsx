@@ -4,6 +4,7 @@ import data from "@/data/employees.json";
 import { AttendanceTable, type Employee } from "@/components/AttendanceTable";
 import { StatusDot, type Status } from "@/components/StatusDot";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
+import { AnomalyAgent } from "@/components/AnomalyAgent";
 
 const statusLabels: Record<Status, string> = {
   present: "Présent", late: "En retard", mission: "Mission", absent: "Absent",
@@ -102,6 +103,9 @@ function Pointages() {
           </div>
           <AttendanceTable rows={rows} onHistory={setSelected} />
         </div>
+
+        <AnomalyAgent />
+
 
         <p className="mt-6 rounded-lg border border-border bg-background px-4 py-3 text-sm text-muted-foreground">
           La position n'est vérifiée qu'au moment du pointage. Aucun suivi GPS continu.
