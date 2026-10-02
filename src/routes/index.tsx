@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Check, X } from "lucide-react";
 import { PhoneMockup } from "@/components/PhoneMockup";
 import { StepsStrip } from "@/components/StepsStrip";
 import { ClockInTabs } from "@/components/ClockInTabs";
