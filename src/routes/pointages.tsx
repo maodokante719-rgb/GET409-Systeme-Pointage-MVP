@@ -80,7 +80,8 @@ function Pointages() {
               <option value="diamniadio">Diamniadio (dépôt)</option>
               <option value="terrain">Terrain</option>
             </select>
-          </label>
+            </label>
+          </div>
         </div>
 
         <div className="mt-8 grid grid-cols-2 divide-border rounded-lg border border-border bg-background md:grid-cols-4 md:divide-x [&>*]:border-border max-md:[&>*:nth-child(odd)]:border-r max-md:[&>*:nth-child(-n+2)]:border-b">
