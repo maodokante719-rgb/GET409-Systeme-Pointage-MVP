@@ -2,7 +2,26 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import data from "@/data/employees.json";
 import { AttendanceTable, type Employee } from "@/components/AttendanceTable";
+import { StatusDot, type Status } from "@/components/StatusDot";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
+
+const statusLabels: Record<Status, string> = {
+  present: "Présent", late: "En retard", mission: "Mission", absent: "Absent",
+};
+
+function exportCsv(rows: Employee[]) {
+  const lines = [
+    ["Matricule", "Nom", "Site", "Arrivée", "Départ", "Statut"],
+    ...rows.map((e) => [e.id, e.name, e.site, e.arrival, e.departure, statusLabels[e.status]]),
+  ];
+  const csv = "\uFEFF" + lines.map((l) => l.map((v) => (/[",;\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v)).join(";")).join("\r\n");
+  const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "pointages-2026-09-16.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+}
 
 export const Route = createFileRoute("/pointages")({
   head: () => ({
