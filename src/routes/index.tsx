@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Check, X } from "lucide-react";
 import { PhoneMockup } from "@/components/PhoneMockup";
 import { StepsStrip } from "@/components/StepsStrip";
 import { ClockInTabs } from "@/components/ClockInTabs";
@@ -50,6 +51,48 @@ function Home() {
         </div>
         <div className="md:col-span-4 md:col-start-9">
           <PhoneMockup />
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-5 py-20">
+        <h2 className="text-3xl font-semibold text-foreground">Ce qui change pour votre entreprise</h2>
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
+          <div className="rounded-lg border border-border bg-secondary p-8">
+            <h3 className="text-lg font-semibold text-muted-foreground">Aujourd'hui, sans outil</h3>
+            <ul className="mt-6 space-y-4">
+              {[
+                "Feuille d'émargement signée à l'entrée",
+                "Retards signalés par WhatsApp",
+                "Heures recopiées à la main dans Excel",
+                "3 à 4 jours pour clôturer la paie",
+                "Retards et absences découverts en fin de mois",
+                "Litiges sur les retenues, sans preuve",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground">
+                  <X className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground/70" aria-hidden="true" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="rounded-lg border border-primary bg-card p-8">
+            <h3 className="text-lg font-semibold text-foreground">Avec Systeme-Pointage</h3>
+            <ul className="mt-6 space-y-4">
+              {[
+                "Pointage sur le téléphone de l'employé",
+                "Lieu vérifié au moment du pointage",
+                "Présences visibles en direct pour chaque site",
+                "Paie clôturée en moins d'une journée",
+                "Rapport des anomalies chaque semaine",
+                "Historique horodaté en cas de désaccord",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3 text-sm font-medium leading-relaxed text-foreground">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 
