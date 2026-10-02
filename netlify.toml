@@ -1,0 +1,8 @@
+# Déploiement Netlify — TanStack Start (SSR) compilé par Nitro avec le preset Netlify
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NITRO_PRESET = "netlify"
+  NODE_VERSION = "22"
