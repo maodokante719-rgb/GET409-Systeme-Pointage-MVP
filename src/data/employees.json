@@ -1,5 +1,5 @@
 {
-  "date": "Mardi 16 septembre 2026",
+  "date": "Mercredi 16 septembre 2026",
   "employees": [
     { "id": "EMP-001", "name": "Awa Diop", "initials": "AD", "site": "Plateau (siège)", "siteKey": "plateau", "arrival": "07h58", "departure": "17h02", "status": "present", "note": "",
       "history": [["Lun 15/09", "07h52", "17h05", "present"], ["Ven 12/09", "07h59", "16h58", "present"], ["Jeu 11/09", "08h02", "17h10", "present"], ["Mer 10/09", "07h49", "17h00", "present"], ["Mar 09/09", "07h55", "17h03", "present"]] },
