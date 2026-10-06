@@ -1,0 +1,33 @@
+Objet : Suite à notre démo — proposition de pilote d'un mois sur un site
+
+Bonjour [Prénom],
+
+Merci pour le temps que vous nous avez accordé le [date de la démo]. Voici un récapitulatif de ce que nous avons vu ensemble et la suite que nous vous proposons.
+
+CE QUE NOUS AVONS MONTRÉ
+- Pointage depuis le téléphone de l'employé, sans pointeuse ni badge à acheter.
+- Trois façons de pointer : QR code affiché sur le site, position vérifiée uniquement au moment du pointage, ou pointage mission validé par le chef d'équipe.
+- Pointage enregistré même sans réseau, puis synchronisé au retour de la connexion.
+- Tableau des présences par site et export du récapitulatif du mois pour la paie.
+- Rapport d'anomalies préparé par l'agent IA (retards, absences, oublis de départ, heures supplémentaires). Il ne sanctionne rien : votre RH valide chaque ligne.
+
+CE QUE NOUS AVONS NOTÉ DE VOTRE CÔTÉ
+[À COMPLÉTER : sites concernés, nombre d'employés, contraintes évoquées pendant la démo]
+
+NOTRE PROPOSITION : UN PILOTE D'UN MOIS SUR UN SITE
+1. Vous choisissez un site et une équipe.
+2. Nous configurons le site et formons les employés sur place.
+3. Pendant un mois, vos employés pointent avec leur téléphone.
+4. En fin de mois, nous faisons le bilan ensemble à partir de vos propres données : temps de clôture de la paie, anomalies repérées, retours des employés.
+
+Vous décidez ensuite, sur cette base, de continuer ou non.
+
+Données personnelles : la position n'est lue qu'au moment du pointage, jamais en continu, conformément à la loi n° 2008-12 et aux recommandations de la CDP.
+
+Prochaine étape : pouvons-nous fixer un échange de 30 minutes pour choisir le site du pilote ? Je vous propose [créneau 1] ou [créneau 2].
+
+Bien cordialement,
+
+[Prénom Nom]
+[Fonction] — Systeme-Pointage
+[Téléphone] · [E-mail]

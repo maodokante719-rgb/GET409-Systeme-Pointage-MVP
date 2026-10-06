@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Flyer — Testez le pointage mobile sur un site pendant un mois</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  :root {
+    --primary: #006F64;
+    --primary-dark: #004F46;
+    --fg: #0F172B;
+    --muted: #45556C;
+    --secondary: #F8FAFC;
+    --border: #E5E7EB;
+    --accent: #F69E04;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #F1F5F9; }
+  body {
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    color: var(--fg);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .page {
+    width: 210mm;
+    height: 297mm;
+    margin: 10mm auto;
+    background: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(15, 23, 43, 0.12);
+  }
+  @media print {
+    html, body { background: #FFFFFF; }
+    .page { margin: 0; box-shadow: none; }
+  }
+
+  /* En-tête */
+  header {
+    padding: 16mm 16mm 12mm;
+    background: linear-gradient(135deg, #E7FAF7 0%, #FFFFFF 55%, #FFF3DF 100%);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-mark {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--primary); color: #FFFFFF;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+  }
+  .logo-name { font-size: 18px; font-weight: 600; letter-spacing: -0.02em; }
+  .eyebrow {
+    margin: 12mm 0 0; display: inline-block;
+    padding: 4px 12px; border-radius: 999px;
+    background: var(--primary); color: #FFFFFF;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  h1 {
+    margin: 5mm 0 0; font-size: 40px; line-height: 1.1;
+    font-weight: 800; letter-spacing: -0.02em;
+  }
+  h1 span { color: var(--primary); }
+  .lead { margin: 5mm 0 0; max-width: 150mm; font-size: 16px; line-height: 1.55; color: var(--muted); }
+
+  main { flex: 1; padding: 10mm 16mm 0; }
+  h2 { margin: 0 0 4mm; font-size: 18px; font-weight: 600; letter-spacing: -0.02em; }
+
+  /* Étapes */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4mm; margin-bottom: 9mm; }
+  .step { border: 1px solid var(--border); border-radius: 8px; padding: 4mm; }
+  .num {
+    width: 26px; height: 26px; border-radius: 999px;
+    background: var(--primary); color: #FFFFFF;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums;
+  }
+  .step p { margin: 3mm 0 0; font-size: 13px; line-height: 1.45; }
+  .step strong { display: block; font-weight: 600; margin-bottom: 1mm; }
+  .step span { color: var(--muted); }
+
+  /* Méthodes de pointage */
+  .methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; margin-bottom: 9mm; }
+  .method { background: var(--secondary); border-radius: 8px; padding: 4mm; border-top: 3px solid var(--primary); }
+  .method strong { display: block; font-size: 14px; font-weight: 600; }
+  .method p { margin: 2mm 0 0; font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+
+  /* Garanties */
+  .checks { list-style: none; margin: 0 0 9mm; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 3mm 8mm; }
+  .checks li { position: relative; padding-left: 7mm; font-size: 13.5px; line-height: 1.45; }
+  .checks li::before {
+    content: ""; position: absolute; left: 0; top: 2px;
+    width: 14px; height: 14px; border-radius: 999px; background: var(--primary);
+  }
+  .checks li::after {
+    content: ""; position: absolute; left: 4.5px; top: 5px;
+    width: 4px; height: 7px; border: solid #FFFFFF; border-width: 0 2px 2px 0; transform: rotate(45deg);
+  }
+
+  /* Bilan */
+  .bilan { border: 1px solid var(--primary); border-radius: 8px; padding: 5mm 6mm; }
+  .bilan p { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--muted); }
+  .bilan p strong { color: var(--fg); }
+
+  /* Pied / appel à l'action */
+  footer {
+    margin-top: 9mm;
+    padding: 9mm 16mm;
+    background: var(--primary); color: #FFFFFF;
+    display: flex; align-items: center; justify-content: space-between; gap: 8mm;
+  }
+  .cta-title { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .cta-text { margin: 2mm 0 0; font-size: 14px; line-height: 1.5; opacity: 0.92; }
+  .qr {
+    flex: none; width: 30mm; height: 30mm; border-radius: 8px;
+    background: #FFFFFF; color: var(--muted);
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    font-size: 10px; padding: 2mm;
+  }
+  .legal { padding: 3mm 16mm; font-size: 10px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="logo">
+      <div class="logo-mark">SP</div>
+      <div class="logo-name">Systeme-Pointage</div>
+    </div>
+    <p class="eyebrow">Pilote d'un mois</p>
+    <h1>Testez le pointage mobile<br><span>sur un site pendant un mois</span></h1>
+    <p class="lead">Feuille d'émargement, retards signalés par WhatsApp, heures recopiées dans Excel : essayez une autre façon de faire, sur un seul site, avant de décider.</p>
+  </header>
+
+  <main>
+    <h2>Comment se déroule le pilote</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <p><strong>Vous choisissez</strong><span>un site et une équipe.</span></p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <p><strong>Nous installons</strong><span>la configuration du site et formons les employés sur place.</span></p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <p><strong>Vos équipes pointent</strong><span>avec leur téléphone pendant un mois.</span></p>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <p><strong>Nous faisons le bilan</strong><span>ensemble, à partir de vos propres données.</span></p>
+      </div>
+    </div>
+
+    <h2>3 façons de pointer</h2>
+    <div class="methods">
+      <div class="method">
+        <strong>QR code du site</strong>
+        <p>Un code affiché à l'entrée du siège ou du dépôt, scanné par l'employé.</p>
+      </div>
+      <div class="method">
+        <strong>Position au pointage</strong>
+        <p>Lue une seule fois, au moment du pointage. Aucun suivi pendant la journée.</p>
+      </div>
+      <div class="method">
+        <strong>Pointage mission</strong>
+        <p>Pour les techniciens chez le client, validé par le chef d'équipe.</p>
+      </div>
+    </div>
+
+    <h2>Pensé pour les PME de Dakar</h2>
+    <ul class="checks">
+      <li>Fonctionne sur les smartphones existants, Android ou iPhone</li>
+      <li>Aucune pointeuse ni badge à acheter</li>
+      <li>Pointage enregistré même sans réseau, synchronisé ensuite</li>
+      <li>Export du récapitulatif du mois pour la paie</li>
+      <li>Rapport des anomalies préparé par l'agent IA</li>
+      <li>Aucune sanction automatique : la RH valide chaque ligne</li>
+    </ul>
+
+    <div class="bilan">
+      <p><strong>En fin de mois, ce que nous regardons ensemble :</strong> le temps passé à clôturer la paie, les retards et absences repérés, et l'avis de vos employés. Vous décidez ensuite de continuer ou non.</p>
+    </div>
+  </main>
+
+  <footer>
+    <div>
+      <p class="cta-title">Choisissez votre site pilote</p>
+      <p class="cta-text">[Téléphone] · [E-mail]<br>[Site web]</p>
+    </div>
+    <div class="qr">[QR code à insérer]</div>
+  </footer>
+  <p class="legal">La position n'est lue qu'au moment du pointage, conformément à la loi n° 2008-12 sur la protection des données personnelles et aux recommandations de la CDP.</p>
+
+</div>
+</body>
+</html>

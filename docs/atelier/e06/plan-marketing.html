@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plan marketing — Systeme-Pointage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --primary: #006F64;
+    --primary-dark: #004F46;
+    --text: #0F172B;
+    --muted: #45556C;
+    --secondary: #F8FAFC;
+    --muted-bg: #F1F5F9;
+    --border: #E5E7EB;
+    --amber: #F69E04;
+    --present: #18A349;
+    --mission: #2663EB;
+    --radius: 8px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--text);
+    background: #fff;
+    line-height: 1.55;
+    font-size: 15px;
+  }
+  header.hero {
+    background: linear-gradient(135deg, #E7FAF7 0%, #FFFFFF 55%, #FFF3DF 100%);
+    border-bottom: 1px solid var(--border);
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+  .hero .wrap { padding-top: 48px; padding-bottom: 40px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -0.02em; }
+  .logo span.mark {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: var(--radius);
+    background: var(--primary); color: #fff; font-size: 12px; font-weight: 700;
+  }
+  .eyebrow { color: var(--primary); font-size: 13px; font-weight: 500; margin: 28px 0 0; }
+  h1 { font-size: 34px; line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; margin: 8px 0 12px; }
+  h2 { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 6px; }
+  h3 { font-size: 16px; font-weight: 600; margin: 0 0 6px; }
+  p.lead { color: var(--muted); max-width: 680px; margin: 0; }
+  section { padding: 44px 0; border-bottom: 1px solid var(--border); }
+  section.alt { background: var(--secondary); }
+  .intro { color: var(--muted); margin: 0 0 24px; max-width: 720px; }
+  .card { border: 1px solid var(--border); border-radius: var(--radius); background: #fff; padding: 20px; }
+  .card.accent { border-color: var(--primary); }
+  .grid3 { display: grid; gap: 16px; grid-template-columns: repeat(3, 1fr); }
+  .grid2 { display: grid; gap: 16px; grid-template-columns: repeat(2, 1fr); }
+  .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 999px; border: 1px solid var(--border);
+    font-size: 12px; font-weight: 600; margin-bottom: 10px; font-variant-numeric: tabular-nums;
+  }
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; }
+  ul.clean { margin: 8px 0 0; padding-left: 18px; }
+  ul.clean li { margin: 4px 0; }
+  .proof { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); }
+  code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 12.5px; background: var(--muted-bg); padding: 1px 5px; border-radius: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; background: #fff; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--border); }
+  th { background: var(--muted-bg); font-weight: 600; font-size: 13px; }
+  tr:last-child td { border-bottom: 0; }
+  td.week { font-weight: 600; white-space: nowrap; }
+  .tag { display: inline-block; border-radius: 999px; padding: 1px 9px; font-size: 12px; font-weight: 500; border: 1px solid; }
+  .tag.p1 { color: #9a5a00; background: #FFF7E6; border-color: #F8D9A0; }
+  .tag.p2 { color: var(--primary-dark); background: #E7FAF7; border-color: #A7E3DA; }
+  .tag.p3 { color: var(--muted); background: var(--secondary); border-color: var(--border); }
+  .todo { color: #9a5a00; font-weight: 500; }
+  ol.actions { counter-reset: a; list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; }
+  ol.actions li { counter-increment: a; border: 1px solid var(--primary); border-radius: var(--radius); padding: 20px 20px 20px 64px; position: relative; background: #fff; }
+  ol.actions li::before {
+    content: counter(a); position: absolute; left: 20px; top: 20px;
+    width: 30px; height: 30px; border-radius: 999px; background: var(--primary); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px;
+  }
+  .note { border: 1px solid var(--border); border-left: 3px solid var(--amber); border-radius: var(--radius); background: #fff; padding: 14px 16px; font-size: 13.5px; color: var(--muted); }
+  footer { padding: 28px 0 40px; font-size: 12.5px; color: var(--muted); }
+  @media (max-width: 760px) {
+    .grid3, .grid2 { grid-template-columns: 1fr; }
+    h1 { font-size: 27px; }
+    table, thead, tbody, tr, th, td { display: block; }
+    thead { display: none; }
+    td { border-bottom: 0; padding: 6px 14px; }
+    td.week { padding-top: 14px; background: var(--muted-bg); }
+    tr { border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  }
+  @media print {
+    section { break-inside: avoid; padding: 24px 0; }
+    header.hero { background: #fff; }
+    a { color: inherit; text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="logo"><span class="mark">SP</span>Systeme-Pointage</div>
+    <p class="eyebrow">Plan marketing · 4 semaines · document de travail interne</p>
+    <h1>Faire tester le pointage mobile à des PME multi-sites de Dakar</h1>
+    <p class="lead">
+      Ce plan s'appuie uniquement sur ce que le site montre aujourd'hui : pages Accueil, Pointages du jour, Agent IA et Contact.
+      Aucune donnée de marché n'est inventée. Quand une donnée manque, elle est notée « à mesurer ».
+    </p>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ POSITIONNEMENT ============ -->
+<section>
+  <div class="wrap">
+    <h2>Positionnement</h2>
+    <p class="intro">Une phrase pour tout le monde (site, LinkedIn, WhatsApp, visite en entreprise).</p>
+    <div class="card accent">
+      <p style="margin:0; font-size:17px; line-height:1.6;">
+        Pour les <strong>PME multi-sites de Dakar</strong> (siège, agences, dépôts, équipes terrain) dont la RH prépare la paie
+        à partir de feuilles d'émargement, de messages WhatsApp et de ressaisies dans Excel,
+        <strong>Systeme-Pointage</strong> est un pointage mobile sur les téléphones des employés
+        qui <strong>vérifie le lieu au moment du pointage</strong> et produit le récapitulatif du mois sans ressaisie,
+        <strong>sans pointeuse à acheter et sans suivi GPS continu</strong>.
+      </p>
+    </div>
+    <div class="grid3" style="margin-top:16px;">
+      <div class="card">
+        <h3>Cible prioritaire</h3>
+        <p class="muted small" style="margin:0;">Responsable RH ou administratif et financier, puis le dirigeant. Entreprises de 10 à 200 employés et plus, réparties sur plusieurs sites (tranches du formulaire de contact).</p>
+      </div>
+      <div class="card">
+        <h3>Problème de départ</h3>
+        <p class="muted small" style="margin:0;">Retards découverts en fin de mois, heures recopiées à la main, litiges sur les retenues sans preuve. Temps réel passé à clôturer la paie : <span class="todo">à mesurer</span> chez chaque prospect.</p>
+      </div>
+      <div class="card">
+        <h3>Alternative actuelle</h3>
+        <p class="muted small" style="margin:0;">Feuille d'émargement signée, pointeuse ou badge à acheter. Part des PME ciblées déjà équipées d'une pointeuse : <span class="todo">à mesurer</span>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PILIERS ============ -->
+<section class="alt">
+  <div class="wrap">
+    <h2>3 piliers de message</h2>
+    <p class="intro">Chaque publication, chaque message et chaque rendez-vous s'appuie sur un de ces piliers et cite la preuve visible sur le site.</p>
+    <div class="grid3">
+      <div class="card">
+        <span class="num">1</span>
+        <h3>Moins de ressaisie avant la paie</h3>
+        <p class="muted small" style="margin:0;">Du pointage du matin à l'export de fin de mois, sans recopier les heures. L'agent IA liste les retards, absences, oublis de départ et heures supplémentaires à vérifier.</p>
+        <p class="proof">Preuves : étapes « Pointer → Vérifier le lieu → Valider → Exporter la paie » (<code>StepsStrip.tsx</code>), bouton « Exporter (CSV) » (<code>pointages.tsx</code>), page <code>/agent</code>.</p>
+      </div>
+      <div class="card">
+        <span class="num">2</span>
+        <h3>Une preuve, pas de surveillance</h3>
+        <p class="muted small" style="margin:0;">Le lieu est vérifié une seule fois, au moment du pointage. Historique horodaté en cas de désaccord. Aucune sanction automatique : la RH valide chaque ligne.</p>
+        <p class="proof">Preuves : QR code du site ou périmètre de 150 m (<code>ClockInTabs.tsx</code>), mention loi n° 2008-12 et CDP (<code>index.tsx</code>, <code>Footer.tsx</code>), historique par employé (<code>HistoryDrawer.tsx</code>).</p>
+      </div>
+      <div class="card">
+        <span class="num">3</span>
+        <h3>Pensé pour le terrain à Dakar</h3>
+        <p class="muted small" style="margin:0;">Fonctionne sur les smartphones existants, même d'entrée de gamme. Pointage enregistré même sans réseau. Trois façons de pointer, dont le pointage mission validé par le chef d'équipe.</p>
+        <p class="proof">Preuves : section « Pensé pour Dakar » (<code>index.tsx</code>), onglets QR / géolocalisation / mission (<code>ClockInTabs.tsx</code>), filtres Plateau, Pikine, Diamniadio, Terrain (<code>pointages.tsx</code>).</p>
+      </div>
+    </div>
+    <div class="note" style="margin-top:16px;">
+      À ne pas promettre tant que ce n'est pas mesuré : « paie clôturée en moins d'une journée », « 30 s pour pointer » et « au lieu de 3 à 4 jours » sont présentés sur le site comme des <strong>objectifs du pilote</strong>. Dans les messages, les formuler comme des objectifs, jamais comme des résultats. Ne pas parler de « temps réel » : le MVP affiche des données fictives.
+    </div>
+  </div>
+</section>
+
+<!-- ============ CALENDRIER ============ -->
+<section>
+  <div class="wrap">
+    <h2>Calendrier de 4 semaines</h2>
+    <p class="intro">Un thème par semaine. Les contenus de l'atelier E05 (post LinkedIn, email de suivi, flyer A4) sont réutilisés. Les indicateurs sont à relever chaque vendredi.</p>
+    <table>
+      <thead>
+        <tr><th style="width:13%;">Semaine</th><th style="width:29%;">LinkedIn</th><th style="width:29%;">WhatsApp Business</th><th style="width:29%;">Démarchage des PME de Dakar</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="week">S1<br><span class="muted small" style="font-weight:400;">Le problème</span></td>
+          <td>Post : « Ce que coûte une feuille d'émargement » (pilier 1), à partir du comparatif « Aujourd'hui, sans outil » de l'accueil. Une question ouverte aux RH en fin de post.</td>
+          <td>Créer le profil professionnel : description reprenant le positionnement, horaires (lun.–ven., 8 h–18 h), lien vers <code>/contact</code>. Préparer 3 réponses rapides : démo, pilote, confidentialité.</td>
+          <td>Constituer la liste des PME cibles (multi-sites, 10 employés et plus) par quartier : Plateau, Pikine, Diamniadio. Nombre de PME éligibles : <span class="todo">à mesurer</span>.</td>
+        </tr>
+        <tr>
+          <td class="week">S2<br><span class="muted small" style="font-weight:400;">La preuve sans surveillance</span></td>
+          <td>Post sur la vérification du lieu au seul moment du pointage et la loi n° 2008-12 (pilier 2). Carrousel des 3 façons de pointer.</td>
+          <td>Message aux contacts qui ont donné leur accord : capture de la page Pointages du jour et lien vers l'agent IA. Pas de liste de diffusion sans accord préalable.</td>
+          <td>Premières visites : déposer le flyer A4 « Testez le pointage mobile sur un site pendant un mois » et proposer la démo de 30 min. Prendre le nom du ou de la responsable RH.</td>
+        </tr>
+        <tr>
+          <td class="week">S3<br><span class="muted small" style="font-weight:400;">Le terrain</span></td>
+          <td>Post sur le pointage mission : technicien chez le client, validé par le chef d'équipe (pilier 3). Courte vidéo d'écran du parcours employé.</td>
+          <td>Relance des personnes rencontrées en S2 avec l'email de suivi E05 adapté en message court. Proposer deux créneaux de démo.</td>
+          <td>Démos de 30 min sur place ou en visio, sur les sites et horaires réels du prospect. Noter l'outil de paie utilisé et le nombre de sites.</td>
+        </tr>
+        <tr>
+          <td class="week">S4<br><span class="muted small" style="font-weight:400;">Le pilote</span></td>
+          <td>Post « pilote d'un mois » (texte E05). Démo de l'agent IA : « Anomalies Pikine semaine 38 », avec la mention « la RH valide chaque ligne ».</td>
+          <td>Envoi de la proposition de pilote aux prospects intéressés. Statut WhatsApp : rappel de l'offre pilote.</td>
+          <td>Signature des premiers pilotes sur un site. Bilan du mois : contacts, démos, pilotes, objections les plus fréquentes.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="grid2" style="margin-top:16px;">
+      <div class="card">
+        <h3>Indicateurs à suivre</h3>
+        <ul class="clean small muted">
+          <li>Demandes de démo reçues via <code>/contact</code> : <span class="todo">à mesurer</span></li>
+          <li>Conversations WhatsApp ouvertes : <span class="todo">à mesurer</span></li>
+          <li>PME visitées, démos réalisées, pilotes signés : <span class="todo">à mesurer</span></li>
+          <li>Vues et commentaires des posts LinkedIn : <span class="todo">à mesurer</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Pendant le pilote, mesurer chez le client</h3>
+        <ul class="clean small muted">
+          <li>Temps de clôture de la paie avant et après : <span class="todo">à mesurer</span></li>
+          <li>Temps moyen pour pointer : <span class="todo">à mesurer</span></li>
+          <li>Part des employés équipés d'un smartphone compatible : <span class="todo">à mesurer</span></li>
+          <li>Pointages faits hors réseau puis synchronisés : <span class="todo">à mesurer</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AMELIORATIONS DU SITE ============ -->
+<section class="alt">
+  <div class="wrap">
+    <h2>7 améliorations concrètes du site</h2>
+    <p class="intro">Classées par priorité. À faire en petites étapes, une modification par fichier, avec <code>npm run build</code> avant validation.</p>
+    <table>
+      <thead>
+        <tr><th style="width:5%;">#</th><th style="width:30%;">Fichier</th><th>Constat et modification proposée</th><th style="width:11%;">Priorité</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><code>src/components/ContactForm.tsx</code></td>
+          <td>Le formulaire valide les champs puis affiche « Demande envoyée », mais la demande n'est transmise nulle part. Chaque demande de démo est perdue alors que le message promet un rappel sous 24 h ouvrées. Envoyer la demande via une server function validée par Zod.</td>
+          <td><span class="tag p1">Urgent</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><code>src/routes/index.tsx</code>, <code>src/routes/pointages.tsx</code></td>
+          <td>Retirer « en temps réel » (meta description de l'accueil, paragraphe d'introduction, meta de <code>/pointages</code>) et « en direct » (liste « Avec Systeme-Pointage »). Le MVP affiche des données fictives : écrire plutôt « Vous voyez qui a pointé, site par site ».</td>
+          <td><span class="tag p1">Urgent</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><code>src/routes/__root.tsx</code></td>
+          <td>Les pages 404 et d'erreur sont en anglais (« Page not found », « Go home », « Try again »). Les traduire : « Page introuvable », « Retour à l'accueil », « Réessayer ».</td>
+          <td><span class="tag p1">Urgent</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><code>src/routes/index.tsx</code></td>
+          <td>Le titre affirme « La paie se clôture en une journée » alors que le bas de page parle d'« Objectifs du pilote ». Aligner le titre sur un objectif et ajouter une section « Testez sur un site pendant un mois » avec un bouton vers <code>/contact</code>, cohérente avec le flyer E05.</td>
+          <td><span class="tag p2">Haute</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><code>src/routes/contact.tsx</code></td>
+          <td>Ajouter un contact WhatsApp Business à côté du téléphone et de l'e-mail, canal attendu par les PME ciblées. Numéro réel : <span class="todo">à compléter</span> (les coordonnées actuelles sont fictives).</td>
+          <td><span class="tag p2">Haute</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><code>src/components/Footer.tsx</code></td>
+          <td>« Export paie », « Pointage mission » et « À propos » ressemblent à des liens mais ne mènent nulle part. Les relier à des ancres à créer sur l'accueil (sections « Comment ça marche » et « 3 façons de pointer »), ou les retirer jusqu'à la création d'une page À propos.</td>
+          <td><span class="tag p3">Normale</span></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><code>src/routes/__root.tsx</code></td>
+          <td>Le site déclare <code>twitter:card = summary_large_image</code> sans aucune image <code>og:image</code>. Ajouter une image de partage (capture du tableau Pointages du jour) pour que les liens partagés sur LinkedIn et WhatsApp affichent un aperçu.</td>
+          <td><span class="tag p3">Normale</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ ACQUISITION ============ -->
+<section>
+  <div class="wrap">
+    <h2>5 idées d'acquisition</h2>
+    <p class="intro">Peu coûteuses, testables en quatre semaines, chacune avec un indicateur simple.</p>
+    <div class="grid2">
+      <div class="card">
+        <span class="num">1</span>
+        <h3>Le pilote d'un mois sur un site</h3>
+        <p class="muted small" style="margin:0;">Offre d'entrée unique : un site, un mois, un bilan chiffré à la fin avec les mesures relevées chez le client. Réduit le risque perçu par le dirigeant.<br>Indicateur : pilotes signés / démos réalisées, <span class="todo">à mesurer</span>.</p>
+      </div>
+      <div class="card">
+        <span class="num">2</span>
+        <h3>Partenariats avec des cabinets comptables et de paie</h3>
+        <p class="muted small" style="margin:0;">Ils reçoivent les heures de plusieurs PME chaque mois et voient les ressaisies. Leur proposer l'export CSV comme format d'échange et une recommandation croisée.<br>Indicateur : PME présentées par un cabinet, <span class="todo">à mesurer</span>.</p>
+      </div>
+      <div class="card">
+        <span class="num">3</span>
+        <h3>« Diagnostic émargement » de 30 min</h3>
+        <p class="muted small" style="margin:0;">Sur place, avec la RH : comment les heures arrivent jusqu'à la paie aujourd'hui, combien de sites, quels litiges. Le diagnostic sert de démo et alimente les mesures « à mesurer » de ce plan.<br>Indicateur : diagnostics réalisés, <span class="todo">à mesurer</span>.</p>
+      </div>
+      <div class="card">
+        <span class="num">4</span>
+        <h3>QR code sur le flyer et sur place</h3>
+        <p class="muted small" style="margin:0;">Le flyer A4 renvoie vers <code>/contact</code> par un QR code, avec un paramètre de suivi par quartier (Plateau, Pikine, Diamniadio) pour savoir quelle tournée génère des demandes. QR définitif : <span class="todo">à compléter</span>.<br>Indicateur : scans par quartier, <span class="todo">à mesurer</span>.</p>
+      </div>
+      <div class="card">
+        <span class="num">5</span>
+        <h3>L'agent IA comme démonstration en un clic</h3>
+        <p class="muted small" style="margin:0;">Partager sur LinkedIn et WhatsApp un lien direct vers <code>/agent?q=Anomalies Pikine semaine 38</code> : le prospect voit un rapport d'anomalies sans rendez-vous. Toujours rappeler que la RH valide chaque ligne.<br>Indicateur : visites de <code>/agent</code> puis de <code>/contact</code>, <span class="todo">à mesurer</span>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACTIONS IMMEDIATES ============ -->
+<section class="alt">
+  <div class="wrap">
+    <h2>3 actions immédiates</h2>
+    <p class="intro">À lancer cette semaine, avant toute publication.</p>
+    <ol class="actions">
+      <li>
+        <h3>Brancher le formulaire de contact</h3>
+        <p class="muted small" style="margin:0;">Sans cela, toute la campagne envoie des prospects vers un formulaire qui ne transmet rien. Fichier : <code>src/components/ContactForm.tsx</code> (amélioration n° 1).</p>
+      </li>
+      <li>
+        <h3>Corriger les promesses non tenues et les textes en anglais</h3>
+        <p class="muted small" style="margin:0;">Retirer « temps réel » et « en direct », traduire les pages 404 et d'erreur. Fichiers : <code>src/routes/index.tsx</code>, <code>src/routes/pointages.tsx</code>, <code>src/routes/__root.tsx</code> (améliorations n° 2 et 3).</p>
+      </li>
+      <li>
+        <h3>Ouvrir le compte WhatsApp Business et lister les premières PME cibles</h3>
+        <p class="muted small" style="margin:0;">Remplacer les coordonnées fictives par les vraies, préparer les 3 réponses rapides, puis lister les PME multi-sites à visiter en semaine 2, quartier par quartier.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    Systeme-Pointage · Plan marketing interne, octobre 2026 · Toutes les données du site sont fictives ; aucune donnée de marché n'est citée dans ce document.
+  </div>
+</footer>
+
+</body>
+</html>
