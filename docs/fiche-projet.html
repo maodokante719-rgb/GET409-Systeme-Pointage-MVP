@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fiche projet — Systeme-Pointage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --primary:#0F766E; --primary-dark:#0B5D57; --text:#0F172A; --muted:#475569; --border:#E5E7EB; --soft:#F8FAFC; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--soft); color:var(--text); font-family:Inter, system-ui, sans-serif; line-height:1.5; }
+  .card { max-width:880px; margin:32px auto; background:#fff; border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+  header { padding:28px 28px 20px; border-bottom:1px solid var(--border); }
+  .brand { display:flex; align-items:center; gap:10px; }
+  .logo { width:36px; height:36px; border-radius:8px; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+  h1 { margin:0; font-size:24px; letter-spacing:-0.01em; }
+  .tag { color:var(--primary); font-weight:500; font-size:14px; margin:14px 0 4px; }
+  .lead { margin:0; color:var(--muted); }
+  section { padding:22px 28px; border-bottom:1px solid var(--border); }
+  h2 { margin:0 0 12px; font-size:16px; }
+  .grid { display:grid; gap:12px; grid-template-columns:repeat(2, minmax(0,1fr)); }
+  .item { border:1px solid var(--border); border-radius:8px; padding:14px; }
+  .item b { display:block; margin-bottom:4px; }
+  .item code { font-size:12px; color:var(--primary); }
+  .item p { margin:0; color:var(--muted); font-size:14px; }
+  ul { margin:0; padding-left:18px; color:var(--muted); }
+  li { margin:4px 0; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip { border:1px solid var(--border); background:var(--soft); border-radius:999px; padding:4px 12px; font-size:13px; }
+  footer { padding:20px 28px; display:flex; flex-wrap:wrap; align-items:center; gap:12px; justify-content:space-between; }
+  a.url { color:var(--primary); font-weight:600; word-break:break-all; }
+  button { border:0; background:var(--primary); color:#fff; padding:10px 16px; border-radius:8px; font:500 14px Inter, sans-serif; cursor:pointer; }
+  button:hover { background:var(--primary-dark); }
+  .note { font-size:12px; color:var(--muted); padding:0 28px 20px; }
+  @media (max-width:640px) { .card { margin:0; border-radius:0; border-left:0; border-right:0; } .grid { grid-template-columns:1fr; } header, section, footer { padding-left:18px; padding-right:18px; } }
+</style>
+</head>
+<body>
+<main class="card">
+  <header>
+    <div class="brand"><span class="logo">SP</span><h1>Systeme-Pointage</h1></div>
+    <p class="tag">Pointage mobile pour PME multi-sites</p>
+    <p class="lead">Fini les feuilles d'émargement. Les employés pointent avec leur téléphone, au siège, au dépôt ou chez le client ; la RH voit qui est là en temps réel et exporte le récapitulatif sans ressaisie.</p>
+  </header>
+
+  <section>
+    <h2>Le problème résolu</h2>
+    <ul>
+      <li>Feuilles d'émargement papier, retards signalés par WhatsApp, heures recopiées dans Excel.</li>
+      <li>3 à 4 jours pour clôturer la paie, et des litiges sur les retenues faute de preuve.</li>
+      <li>Objectif du pilote : paie clôturée en moins d'une journée, pointage en 30 s, aucun matériel à acheter.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Les 4 pages</h2>
+    <div class="grid">
+      <div class="item"><b>Accueil</b><code>/</code><p>Présentation, « Ce qui change », 3 façons de pointer (QR code, position vérifiée au pointage, mission validée), section Agent IA.</p></div>
+      <div class="item"><b>Pointages du jour</b><code>/pointages</code><p>Tableau RH du mercredi 16/09/2026 : compteurs, filtres par site, historique d'un employé, export CSV.</p></div>
+      <div class="item"><b>Agent IA</b><code>/agent</code><p>Rapport d'anomalies de la semaine 38 (retards, absences, oublis de départ, heures sup), à valider par la RH.</p></div>
+      <div class="item"><b>Contact</b><code>/contact</code><p>Formulaire de demande de démo (30 min) et coordonnées fictives à Dakar.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Stack</h2>
+    <div class="chips">
+      <span class="chip">TanStack Start</span><span class="chip">React 19</span><span class="chip">Tailwind CSS 4</span>
+      <span class="chip">Vite</span><span class="chip">Nitro (preset Netlify)</span><span class="chip">Agent Dify (fonction serveur)</span>
+      <span class="chip">Données JSON fictives</span>
+    </div>
+  </section>
+
+  <footer>
+    <a class="url" id="url" href="https://get409-systeme-pointage.netlify.app" target="_blank" rel="noopener">https://get409-systeme-pointage.netlify.app</a>
+    <button id="copy" type="button">Copier l'adresse du site</button>
+  </footer>
+  <p class="note">Master GET 409 — Swiss UMEF University, Campus de Dakar · Données et coordonnées de démonstration fictives.</p>
+</main>
+<script>
+  document.getElementById('copy').addEventListener('click', async (e) => {
+    const url = document.getElementById('url').href;
+    try { await navigator.clipboard.writeText(url); }
+    catch { const t = document.createElement('textarea'); t.value = url; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+    e.target.textContent = 'Adresse copiée ✓';
+    setTimeout(() => { e.target.textContent = "Copier l'adresse du site"; }, 2000);
+  });
+</script>
+</body>
+</html>
