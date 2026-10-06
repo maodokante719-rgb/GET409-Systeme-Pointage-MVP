@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Systeme-Pointage, le pointage mobile des PME multi-sites à Dakar</title>
+<meta name="description" content="Vos employés pointent avec leur téléphone, sur chaque site. La RH voit les présences par site et exporte pour la paie. Un agent IA prépare le rapport d'anomalies de la semaine.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --atlantique: #0F2E4C;   /* encre : l'océan au large du Cap-Vert */
+    --rade: #17406A;         /* la terre dessinée sur l'océan */
+    --chaux: #F4F7F8;        /* mur passé à la chaux */
+    --brume: #DDE6EC;        /* surfaces secondaires */
+    --jaune: #F2B807;        /* jaune des cars rapides */
+    --vert: #00853F;         /* statut : validé */
+    --rouge: #C8102E;        /* statut : anomalie */
+    --texte-doux: #4A6178;
+
+    --f: "Archivo", system-ui, sans-serif;
+    --s-1: .875rem;
+    --s0: 1.0625rem;
+    --s1: 1.3125rem;
+    --s2: 1.75rem;
+    --s3: clamp(2rem, 1.4rem + 2.6vw, 3rem);
+    --s4: clamp(2.6rem, 1.6rem + 4.6vw, 5.25rem);
+
+    --marge: clamp(1.25rem, 4vw, 3rem);
+    --large: 76rem;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--f);
+    font-size: var(--s0);
+    line-height: 1.55;
+    color: var(--atlantique);
+    background: var(--chaux);
+    -webkit-font-smoothing: antialiased;
+  }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--jaune); outline-offset: 3px; border-radius: 2px; }
+
+  .cadre { width: 100%; max-width: var(--large); margin-inline: auto; padding-inline: var(--marge); }
+
+  /* Titres : Archivo étroit et lourd, comme le lettrage peint des cars rapides */
+  h1, h2, h3 { font-stretch: 68%; font-weight: 800; line-height: 1.02; margin: 0; letter-spacing: -.005em; }
+  h2 { font-size: var(--s3); max-width: 18ch; }
+  h3 { font-size: var(--s1); font-stretch: 80%; font-weight: 700; line-height: 1.2; }
+  p { margin: 0; }
+  .chapeau { font-size: var(--s1); line-height: 1.45; max-width: 38em; color: var(--texte-doux); }
+
+  /* Boutons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 3rem; padding: .7rem 1.4rem;
+    font: 700 var(--s0)/1 var(--f); font-stretch: 90%;
+    text-decoration: none; border: 2px solid transparent; border-radius: 6px; cursor: pointer;
+  }
+  .btn-jaune { background: var(--jaune); color: var(--atlantique); }
+  .btn-jaune:hover { background: #FFC81F; }
+  .btn-ligne { border-color: currentColor; color: inherit; background: transparent; }
+  .btn-ligne:hover { background: rgba(255,255,255,.08); }
+
+  /* ---------- En-tête ---------- */
+  .entete { background: var(--atlantique); color: var(--chaux); }
+  .entete .cadre { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 4.5rem; }
+  .marque { display: flex; align-items: center; gap: .6rem; text-decoration: none; font-weight: 800; font-stretch: 75%; font-size: 1.35rem; }
+  .marque svg { width: 28px; height: 28px; }
+  .nav { display: flex; align-items: center; gap: 1.75rem; }
+  .nav a:not(.btn) { text-decoration: none; font-size: var(--s-1); opacity: .85; }
+  .nav a:not(.btn):hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+  .nav .btn { min-height: 2.5rem; padding: .5rem 1rem; font-size: var(--s-1); }
+  @media (max-width: 860px) { .nav a:not(.btn) { display: none; } }
+
+  /* ---------- Accroche : la presqu'île ---------- */
+  .accroche { background: var(--atlantique); color: var(--chaux); padding-block: clamp(2.5rem, 6vw, 5rem) clamp(3rem, 7vw, 6rem); overflow: hidden; }
+  .accroche .cadre { display: grid; gap: clamp(2rem, 4vw, 3.5rem); grid-template-columns: 1fr; align-items: center; }
+  @media (min-width: 1000px) { .accroche .cadre { grid-template-columns: 1fr 1.08fr; } }
+  .accroche h1 { font-size: var(--s4); font-stretch: 62%; font-weight: 850; line-height: .96; max-width: 11ch; }
+  .accroche .chapeau { color: #C3D3E0; margin-top: 1.5rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+
+  .carte { position: relative; }
+  .carte svg { width: 100%; height: auto; }
+  .carte .terre { fill: var(--rade); stroke: #2C5A86; stroke-width: 1.5; }
+  .carte .route { fill: none; stroke: var(--jaune); stroke-width: 2.5; stroke-dasharray: 6 7; stroke-linecap: round; }
+  .carte .site { fill: var(--chaux); }
+  .carte .siege { fill: var(--jaune); }
+  .carte .halo { fill: none; stroke: var(--jaune); stroke-width: 2; opacity: .55; }
+  .carte text { fill: var(--chaux); font-family: var(--f); font-size: 17px; font-weight: 600; font-stretch: 85%; }
+  .carte text.lieu { fill: #9FB8CE; font-weight: 400; font-size: 15px; }
+  .carte text.ocean { fill: #4F79A0; font-size: 14px; font-style: italic; font-weight: 400; letter-spacing: .04em; }
+  @media (max-width: 600px) {
+    .carte text { font-size: 24px; }
+    .carte text.lieu { font-size: 21px; }
+    .carte text.ocean { display: none; }
+  }
+  .legende-carte { font-size: var(--s-1); color: #8FA9C0; margin-top: .5rem; }
+
+  /* Écran de téléphone d'exemple */
+  .telephone {
+    width: min(17.5rem, 100%);
+    background: var(--chaux); color: var(--atlantique);
+    border-radius: 22px; padding: 1.1rem 1.1rem 1.25rem;
+    border: 6px solid #0A2238;
+    box-shadow: 0 24px 50px -20px rgba(0,0,0,.55);
+    margin: 1.25rem 0 0 auto;
+  }
+  @media (min-width: 1000px) {
+    .telephone { position: relative; margin: -5.5rem 0 0 auto; }
+    .legende-carte { max-width: 44%; }
+  }
+  @media (max-width: 999px) { .telephone { margin-inline: auto; } }
+  .telephone .tel-site { font-weight: 800; font-stretch: 75%; font-size: 1.3rem; line-height: 1.1; }
+  .telephone .tel-sous { font-size: var(--s-1); color: var(--texte-doux); margin-bottom: .9rem; }
+  .verif { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; font-size: .9375rem; }
+  .verif li { display: flex; align-items: center; gap: .55rem; }
+  .verif li::before {
+    content: ""; flex: none; width: 1.15rem; height: 1.15rem; border-radius: 50%;
+    background: var(--vert) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat;
+  }
+  .tel-heure { margin-top: 1rem; padding-top: .9rem; border-top: 1px solid var(--brume); display: flex; justify-content: space-between; align-items: baseline; }
+  .tel-heure strong { font-size: 2rem; font-stretch: 70%; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .tel-heure span { font-size: var(--s-1); color: var(--texte-doux); }
+  .tel-note { font-size: .75rem; color: var(--texte-doux); margin-top: .75rem; }
+
+  /* Animation unique : les pointages remontent vers le siège */
+  @media (prefers-reduced-motion: no-preference) {
+    .carte .route { animation: trace 1.4s ease-out both; }
+    .carte .route:nth-of-type(3) { animation-delay: .25s; }
+    .carte .route:nth-of-type(4) { animation-delay: .5s; }
+    .carte .halo { transform-box: fill-box; transform-origin: center; animation: onde 2.6s ease-out 1.6s infinite; }
+    .telephone { animation: pose .7s cubic-bezier(.2,.8,.2,1) .9s both; }
+  }
+  @keyframes trace { from { stroke-dashoffset: 260; opacity: 0; } to { stroke-dashoffset: 0; opacity: 1; } }
+  @keyframes onde { 0% { transform: scale(.6); opacity: .8; } 100% { transform: scale(2.2); opacity: 0; } }
+  @keyframes pose { from { transform: translateY(18px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+  /* ---------- Sections ---------- */
+  .section { padding-block: clamp(4rem, 9vw, 7rem); }
+  .section-tete { display: grid; gap: 1rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+
+  /* Avant / après : un tableau, une ligne par étape de la paie */
+  .comparaison { border-top: 3px solid var(--atlantique); }
+  .comp-entete, .comp-ligne { display: grid; grid-template-columns: 1fr; }
+  .comp-entete { display: none; }
+  @media (min-width: 760px) {
+    .comp-entete, .comp-ligne { grid-template-columns: 11rem 1fr 1fr; column-gap: 2rem; }
+    .comp-entete { display: grid; padding-block: .9rem; font-weight: 700; font-stretch: 85%; border-bottom: 1px solid #B9C9D6; }
+    .comp-entete span:nth-child(3) { color: var(--vert); }
+  }
+  .comp-ligne { padding-block: 1.25rem; border-bottom: 1px solid #B9C9D6; gap: .5rem; }
+  .comp-ligne h3 { font-size: 1.15rem; }
+  .comp-avant { color: var(--texte-doux); }
+  .comp-apres { font-weight: 500; }
+  @media (max-width: 759px) {
+    .comp-avant::before, .comp-apres::before { display: block; font-size: var(--s-1); font-weight: 700; margin-bottom: .15rem; }
+    .comp-avant::before { content: "Avant"; color: var(--texte-doux); }
+    .comp-apres::before { content: "Avec Systeme-Pointage"; color: var(--vert); }
+  }
+
+  /* Trois façons de pointer */
+  .facons { background: var(--brume); }
+  .facons-grille { display: grid; gap: 2.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 860px) { .facons-grille { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+  .facon { display: grid; gap: .75rem; align-content: start; }
+  .facon svg { width: 64px; height: 64px; margin-bottom: .5rem; }
+  .facon .pour { font-size: var(--s-1); font-weight: 600; color: var(--texte-doux); }
+  .facon p { max-width: 34ch; }
+
+  /* Agent IA */
+  .agent .cadre { display: grid; gap: clamp(2.5rem, 5vw, 4rem); grid-template-columns: 1fr; }
+  @media (min-width: 1000px) { .agent .cadre { grid-template-columns: .9fr 1.1fr; align-items: start; } }
+  .cycle { list-style: none; counter-reset: etape; margin: 2rem 0 0; padding: 0; display: grid; gap: 1.25rem; }
+  .cycle li { counter-increment: etape; display: grid; grid-template-columns: 2.25rem 1fr; gap: .9rem; align-items: start; }
+  .cycle li::before {
+    content: counter(etape); display: grid; place-items: center; width: 2.25rem; height: 2.25rem;
+    border-radius: 50%; border: 2px solid var(--atlantique); font-weight: 800; font-stretch: 75%;
+  }
+  .cycle li:last-child::before { background: var(--atlantique); color: var(--chaux); }
+  .cycle strong { display: block; font-stretch: 85%; }
+  .cycle span { color: var(--texte-doux); }
+
+  .rapport { background: #fff; border: 1px solid #B9C9D6; border-radius: 10px; overflow: hidden; }
+  .rapport-tete { padding: 1.1rem 1.25rem; background: var(--atlantique); color: var(--chaux); display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; align-items: baseline; }
+  .rapport-tete strong { font-stretch: 80%; font-size: 1.15rem; }
+  .rapport-tete span { font-size: var(--s-1); color: #A9C0D4; }
+  .anomalie { padding: 1.1rem 1.25rem; border-bottom: 1px solid var(--brume); display: grid; gap: .75rem; grid-template-columns: 1fr; border-left: 4px solid var(--jaune); }
+  @media (min-width: 560px) { .anomalie { grid-template-columns: 1fr auto; align-items: center; } }
+  .anomalie:last-of-type { border-bottom: 0; }
+  .anomalie p { font-weight: 600; line-height: 1.35; }
+  .anomalie small { display: block; font-size: var(--s-1); color: var(--texte-doux); font-weight: 400; margin-top: .2rem; }
+  .anomalie .choix { display: flex; gap: .5rem; }
+  .anomalie button {
+    font: 600 var(--s-1)/1 var(--f); padding: .6rem .9rem; min-height: 2.5rem; border-radius: 6px; cursor: pointer;
+    border: 1.5px solid var(--atlantique); background: transparent; color: var(--atlantique);
+  }
+  .anomalie button[data-action="valider"] { background: var(--atlantique); color: var(--chaux); }
+  .anomalie .etat { font-size: var(--s-1); font-weight: 700; }
+  .anomalie.est-validee { border-left-color: var(--vert); }
+  .anomalie.est-validee .etat { color: var(--vert); }
+  .anomalie.est-corrigee { border-left-color: var(--rouge); }
+  .anomalie.est-corrigee .etat { color: var(--rouge); }
+  .rapport-pied { padding: .9rem 1.25rem; background: var(--chaux); font-size: var(--s-1); color: var(--texte-doux); }
+
+  /* Objectifs du pilote : un tableau de bord de bus, pas des promesses */
+  .pilote { background: var(--atlantique); color: var(--chaux); }
+  .pilote .chapeau { color: #C3D3E0; }
+  .objectifs { border-top: 1px solid #2C5A86; }
+  .objectif { display: grid; gap: .75rem 2rem; padding-block: 1.75rem; border-bottom: 1px solid #2C5A86; grid-template-columns: 1fr; }
+  @media (min-width: 860px) { .objectif { grid-template-columns: 14rem 1fr 1fr; align-items: baseline; } }
+  .objectif .cible { font-size: clamp(2.5rem, 2rem + 2vw, 3.5rem); font-stretch: 62%; font-weight: 850; line-height: 1; color: var(--jaune); }
+  .objectif h3 { font-size: var(--s1); }
+  .objectif .mesure { color: #C3D3E0; font-size: .9875rem; }
+  .objectif .mesure b { color: var(--chaux); font-weight: 600; }
+
+  /* Formulaire */
+  .demo .cadre { display: grid; gap: clamp(2rem, 5vw, 4rem); grid-template-columns: 1fr; }
+  @media (min-width: 1000px) { .demo .cadre { grid-template-columns: .8fr 1.2fr; } }
+  .demo aside p + p { margin-top: 1rem; }
+  form { display: grid; gap: 1.25rem; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { form { grid-template-columns: 1fr 1fr; } .plein { grid-column: 1 / -1; } }
+  .champ { display: grid; gap: .4rem; }
+  label { font-weight: 600; font-size: .9375rem; }
+  label .facultatif { font-weight: 400; color: var(--texte-doux); }
+  input, select, textarea {
+    font: 400 var(--s0)/1.4 var(--f); color: var(--atlantique);
+    background: #fff; border: 1.5px solid #9DB1C2; border-radius: 6px; padding: .75rem .85rem; width: 100%;
+    min-height: 3rem;
+  }
+  textarea { min-height: 7rem; resize: vertical; }
+  input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--jaune); outline-offset: 1px; border-color: var(--atlantique); }
+  .erreur { color: var(--rouge); font-size: var(--s-1); font-weight: 600; min-height: 0; }
+  .erreur:empty { display: none; }
+  [aria-invalid="true"] { border-color: var(--rouge); }
+  .envoi { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+  .envoi .btn { border-color: var(--atlantique); }
+  .envoi small { color: var(--texte-doux); font-size: var(--s-1); max-width: 34ch; }
+  .confirmation { padding: 1.25rem; border-left: 4px solid var(--vert); background: #fff; }
+  .confirmation strong { display: block; font-stretch: 85%; font-size: 1.15rem; margin-bottom: .25rem; }
+  .confirmation[hidden] { display: none; }
+
+  /* Pied */
+  .pied { border-top: 1px solid #B9C9D6; padding-block: 2rem; font-size: var(--s-1); color: var(--texte-doux); }
+  .pied .cadre { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
+</style>
+</head>
+<body>
+
+<header class="entete">
+  <div class="cadre">
+    <a class="marque" href="#">
+      <svg viewBox="0 0 28 28" aria-hidden="true"><rect x="1" y="1" width="26" height="26" rx="6" fill="#F2B807"/><path d="M8 14.5l4 4 8-9" fill="none" stroke="#0F2E4C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Systeme-Pointage
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="#avant-apres">Avant, après</a>
+      <a href="#pointer">Pointer</a>
+      <a href="#agent">Agent IA</a>
+      <a href="#pilote">Pilote</a>
+      <a class="btn btn-jaune" href="#demo">Demander une démo</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="accroche" aria-labelledby="titre">
+    <div class="cadre">
+      <div>
+        <h1 id="titre">Du Plateau à Rufisque, chaque pointage arrive au même endroit.</h1>
+        <p class="chapeau">Siège, agences, dépôts, équipes terrain : vos employés pointent avec leur téléphone. La RH voit qui est présent sur chaque site et exporte les heures pour la paie.</p>
+        <div class="actions">
+          <a class="btn btn-jaune" href="#demo">Demander une démo</a>
+          <a class="btn btn-ligne" href="#pointer">Voir comment on pointe</a>
+        </div>
+      </div>
+
+      <figure class="carte" style="margin:0">
+        <svg viewBox="0 0 600 400" role="img" aria-labelledby="carte-titre">
+          <title id="carte-titre">Presqu'île de Dakar : une agence aux Almadies, une équipe terrain à Pikine et un dépôt à Rufisque envoient leurs pointages au siège du Plateau.</title>
+          <text class="ocean" x="250" y="60">Océan Atlantique</text>
+          <path class="terre" d="M600 92 C 520 98 440 104 360 116 C 280 126 200 130 130 136 C 90 139 58 142 38 160 C 28 172 44 186 72 190 C 96 194 112 204 128 222 C 150 246 168 268 192 288 C 206 300 222 306 238 298 C 250 290 252 274 262 262 C 280 248 310 246 344 256 C 390 268 440 282 490 292 C 530 300 566 306 600 310 Z"/>
+          <text class="ocean" x="275" y="300">Baie de Hann</text>
+
+          <path class="route" d="M70 166 C 120 200 170 240 222 284"/>
+          <path class="route" d="M392 176 C 330 200 270 240 222 284"/>
+          <path class="route" d="M528 280 C 430 250 320 250 222 284"/>
+
+          <circle class="halo" cx="222" cy="284" r="14"/>
+          <circle class="siege" cx="222" cy="284" r="9"/>
+          <circle class="site" cx="70" cy="166" r="6.5"/>
+          <circle class="site" cx="392" cy="176" r="6.5"/>
+          <circle class="site" cx="528" cy="280" r="6.5"/>
+
+          <text x="34" y="128">Agence</text><text class="lieu" x="34" y="146">Almadies</text>
+          <text x="140" y="324">Siège et RH</text><text class="lieu" x="140" y="342">Plateau</text>
+          <text x="368" y="148">Équipe terrain</text><text class="lieu" x="368" y="166">Pikine</text>
+          <text x="480" y="244">Dépôt</text><text class="lieu" x="480" y="262">Rufisque</text>
+        </svg>
+        <figcaption class="legende-carte">Exemple de réseau de sites, à remplacer par les vôtres.</figcaption>
+
+        <div class="telephone" role="img" aria-label="Exemple d'écran de pointage : dépôt de Rufisque, QR code du site scanné, position vérifiée, entrée enregistrée.">
+          <div class="tel-site">Dépôt de Rufisque</div>
+          <div class="tel-sous">Pointage d'entrée</div>
+          <ul class="verif">
+            <li>QR code du site scanné</li>
+            <li>Position vérifiée</li>
+            <li>Entrée enregistrée</li>
+          </ul>
+          <div class="tel-heure"><strong>07:58</strong><span>Mardi</span></div>
+          <p class="tel-note">Écran d'exemple</p>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" id="avant-apres" aria-labelledby="t-avant">
+    <div class="cadre">
+      <div class="section-tete">
+        <h2 id="t-avant">Ce qui change pour la RH, étape par étape</h2>
+        <p class="chapeau">Quand l'entreprise compte plusieurs sites, la présence se perd entre les feuilles, les appels et les fichiers. Voici le même mois de paie, avant et après.</p>
+      </div>
+
+      <div class="comparaison" role="table" aria-label="Comparaison avant et avec Systeme-Pointage">
+        <div class="comp-entete" role="row">
+          <span role="columnheader">Étape</span>
+          <span role="columnheader">Avant</span>
+          <span role="columnheader">Avec Systeme-Pointage</span>
+        </div>
+        <div class="comp-ligne" role="row">
+          <h3 role="rowheader">Relever la présence</h3>
+          <p class="comp-avant" role="cell">Une feuille par site, signée à la main, parfois remplie après coup.</p>
+          <p class="comp-apres" role="cell">Chaque employé pointe sur son téléphone, à l'arrivée et au départ.</p>
+        </div>
+        <div class="comp-ligne" role="row">
+          <h3 role="rowheader">Rassembler les sites</h3>
+          <p class="comp-avant" role="cell">Les feuilles remontent au siège par photo, par chauffeur ou en fin de mois.</p>
+          <p class="comp-apres" role="cell">Les présences de tous les sites arrivent au même tableau, site par site.</p>
+        </div>
+        <div class="comp-ligne" role="row">
+          <h3 role="rowheader">Vérifier les écarts</h3>
+          <p class="comp-avant" role="cell">La RH appelle les chefs d'agence pour savoir qui était où.</p>
+          <p class="comp-apres" role="cell">L'agent IA liste les anomalies de la semaine. La RH les valide ou les corrige.</p>
+        </div>
+        <div class="comp-ligne" role="row">
+          <h3 role="rowheader">Clôturer la paie</h3>
+          <p class="comp-avant" role="cell">Tout est ressaisi dans un tableur avant de calculer les heures.</p>
+          <p class="comp-apres" role="cell">La RH exporte les heures validées vers son outil de paie.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section facons" id="pointer" aria-labelledby="t-pointer">
+    <div class="cadre">
+      <div class="section-tete">
+        <h2 id="t-pointer">Trois façons de pointer, selon le lieu de travail</h2>
+        <p class="chapeau">Un seul téléphone suffit, celui de l'employé. Chaque pointage est contrôlé de la manière qui convient au site.</p>
+      </div>
+
+      <div class="facons-grille">
+        <article class="facon">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <rect x="2" y="2" width="60" height="60" rx="10" fill="#0F2E4C"/>
+            <g fill="#F4F7F8"><rect x="12" y="12" width="14" height="14" rx="2"/><rect x="38" y="12" width="14" height="14" rx="2"/><rect x="12" y="38" width="14" height="14" rx="2"/><rect x="38" y="38" width="6" height="6"/><rect x="46" y="46" width="6" height="6"/><rect x="38" y="48" width="4" height="4"/><rect x="48" y="38" width="4" height="4"/></g>
+            <g fill="#0F2E4C"><rect x="16" y="16" width="6" height="6"/><rect x="42" y="16" width="6" height="6"/><rect x="16" y="42" width="6" height="6"/></g>
+          </svg>
+          <h3>QR code du site</h3>
+          <p class="pour">Siège, agences, dépôts</p>
+          <p>Un QR code imprimé est affiché à l'entrée de chaque site. L'employé le scanne en arrivant et en partant : le pointage est rattaché au bon site.</p>
+        </article>
+        <article class="facon">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <rect x="2" y="2" width="60" height="60" rx="10" fill="#0F2E4C"/>
+            <circle cx="32" cy="34" r="18" fill="none" stroke="#F2B807" stroke-width="2" stroke-dasharray="4 4"/>
+            <path d="M32 14c-6 0-10 4.5-10 10 0 7.5 10 18 10 18s10-10.5 10-18c0-5.5-4-10-10-10z" fill="#F4F7F8"/>
+            <circle cx="32" cy="24" r="4" fill="#0F2E4C"/>
+          </svg>
+          <h3>Position vérifiée</h3>
+          <p class="pour">Au moment du pointage</p>
+          <p>Le téléphone vérifie que l'employé se trouve bien dans la zone du site quand il pointe. Un pointage hors zone est signalé à la RH, pas bloqué en silence.</p>
+        </article>
+        <article class="facon">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <rect x="2" y="2" width="60" height="60" rx="10" fill="#0F2E4C"/>
+            <rect x="16" y="12" width="32" height="40" rx="3" fill="#F4F7F8"/>
+            <rect x="24" y="9" width="16" height="7" rx="2" fill="#F2B807"/>
+            <path d="M22 26h20M22 33h14" stroke="#9DB1C2" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M23 42l4 4 9-9" fill="none" stroke="#00853F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3>Mission validée</h3>
+          <p class="pour">Équipes terrain</p>
+          <p>Commerciaux, techniciens, livreurs : l'employé pointe le début et la fin de sa mission, puis son responsable la valide. Les heures comptent une fois validées.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section agent" id="agent" aria-labelledby="t-agent">
+    <div class="cadre">
+      <div>
+        <h2 id="t-agent">L'agent IA prépare, la RH décide</h2>
+        <p class="chapeau" style="margin-top:1rem">Chaque semaine, un agent IA relit les pointages de tous les sites et prépare le rapport d'anomalies. Il ne modifie aucune heure : chaque ligne attend la décision de la RH.</p>
+        <ol class="cycle">
+          <li><div><strong>L'agent relit la semaine</strong><span>Pointages manquants, positions hors zone, missions non validées.</span></div></li>
+          <li><div><strong>Il prépare le rapport</strong><span>Une ligne par anomalie, avec le site, le jour et ce qu'il a constaté.</span></div></li>
+          <li><div><strong>La RH valide ou corrige</strong><span>Ligne par ligne, avec la possibilité d'ajouter une explication.</span></div></li>
+          <li><div><strong>Les heures partent en paie</strong><span>L'export ne reprend que des heures validées.</span></div></li>
+        </ol>
+      </div>
+
+      <div class="rapport" aria-labelledby="t-rapport">
+        <div class="rapport-tete">
+          <strong id="t-rapport">Rapport d'anomalies de la semaine</strong>
+          <span>Exemple, données fictives</span>
+        </div>
+        <div class="anomalie">
+          <div>
+            <p>Pointage de sortie manquant<small>Dépôt de Rufisque, mardi</small></p>
+            <span class="etat" aria-live="polite"></span>
+          </div>
+          <div class="choix">
+            <button type="button" data-action="valider">Valider</button>
+            <button type="button" data-action="corriger">Corriger</button>
+          </div>
+        </div>
+        <div class="anomalie">
+          <div>
+            <p>Position hors de la zone du site<small>Agence des Almadies, jeudi</small></p>
+            <span class="etat" aria-live="polite"></span>
+          </div>
+          <div class="choix">
+            <button type="button" data-action="valider">Valider</button>
+            <button type="button" data-action="corriger">Corriger</button>
+          </div>
+        </div>
+        <div class="anomalie">
+          <div>
+            <p>Mission terminée, pas encore validée par le responsable<small>Équipe terrain de Pikine, vendredi</small></p>
+            <span class="etat" aria-live="polite"></span>
+          </div>
+          <div class="choix">
+            <button type="button" data-action="valider">Valider</button>
+            <button type="button" data-action="corriger">Corriger</button>
+          </div>
+        </div>
+        <p class="rapport-pied">Essayez : chaque décision reste modifiable jusqu'à l'export de paie.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section pilote" id="pilote" aria-labelledby="t-pilote">
+    <div class="cadre">
+      <div class="section-tete">
+        <h2 id="t-pilote">Ce que le pilote doit prouver</h2>
+        <p class="chapeau">Ce sont nos objectifs, pas des résultats. Nous les mesurerons avec vous pendant le pilote, et nous vous montrerons les chiffres réels.</p>
+      </div>
+      <div class="objectifs">
+        <div class="objectif">
+          <div class="cible">1 journée</div>
+          <h3>Clôturer la paie en moins d'une journée</h3>
+          <p class="mesure"><b>Comment on le mesure :</b> le temps entre la fin du mois et l'export des heures validées.</p>
+        </div>
+        <div class="objectif">
+          <div class="cible">30 s</div>
+          <h3>Pointer en 30 secondes</h3>
+          <p class="mesure"><b>Comment on le mesure :</b> le temps entre l'ouverture de l'application et le pointage enregistré.</p>
+        </div>
+        <div class="objectif">
+          <div class="cible">0 matériel</div>
+          <h3>Aucun matériel à acheter</h3>
+          <p class="mesure"><b>Comment on le mesure :</b> pas de badgeuse, pas de borne. Les téléphones des employés et un QR code imprimé par site.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section demo" id="demo" aria-labelledby="t-demo">
+    <div class="cadre">
+      <aside>
+        <h2 id="t-demo">Demander une démo</h2>
+        <p class="chapeau" style="margin-top:1rem">Dites-nous combien de sites vous gérez et comment vos équipes travaillent. Nous vous montrons le pointage et le rapport de l'agent sur votre cas.</p>
+        <p>La démo se fait à vos bureaux à Dakar ou en visioconférence.</p>
+      </aside>
+
+      <div>
+        <form id="form-demo" novalidate>
+          <div class="champ">
+            <label for="nom">Nom et prénom</label>
+            <input id="nom" name="nom" autocomplete="name" required aria-describedby="err-nom">
+            <p class="erreur" id="err-nom"></p>
+          </div>
+          <div class="champ">
+            <label for="entreprise">Entreprise</label>
+            <input id="entreprise" name="entreprise" autocomplete="organization" required aria-describedby="err-entreprise">
+            <p class="erreur" id="err-entreprise"></p>
+          </div>
+          <div class="champ">
+            <label for="tel">Téléphone</label>
+            <input id="tel" name="tel" type="tel" autocomplete="tel" inputmode="tel" placeholder="77 000 00 00" required aria-describedby="err-tel">
+            <p class="erreur" id="err-tel"></p>
+          </div>
+          <div class="champ">
+            <label for="email">E-mail <span class="facultatif">(facultatif)</span></label>
+            <input id="email" name="email" type="email" autocomplete="email" aria-describedby="err-email">
+            <p class="erreur" id="err-email"></p>
+          </div>
+          <div class="champ">
+            <label for="sites">Nombre de sites</label>
+            <select id="sites" name="sites" required aria-describedby="err-sites">
+              <option value="">Choisir</option>
+              <option>2 à 3</option>
+              <option>4 à 10</option>
+              <option>Plus de 10</option>
+            </select>
+            <p class="erreur" id="err-sites"></p>
+          </div>
+          <div class="champ">
+            <label for="effectif">Nombre d'employés</label>
+            <select id="effectif" name="effectif" required aria-describedby="err-effectif">
+              <option value="">Choisir</option>
+              <option>Moins de 20</option>
+              <option>20 à 50</option>
+              <option>51 à 200</option>
+              <option>Plus de 200</option>
+            </select>
+            <p class="erreur" id="err-effectif"></p>
+          </div>
+          <div class="champ plein">
+            <label for="message">Comment vos équipes pointent aujourd'hui <span class="facultatif">(facultatif)</span></label>
+            <textarea id="message" name="message"></textarea>
+          </div>
+          <div class="envoi plein">
+            <button class="btn btn-jaune" type="submit">Demander une démo</button>
+            <small>Ce formulaire n'envoie encore rien : votre demande reste sur cette page.</small>
+          </div>
+        </form>
+        <div class="confirmation" id="confirmation" role="status" tabindex="-1" hidden>
+          <strong>Demande de démo prête</strong>
+          <p>Rien n'a été envoyé : ce formulaire n'est pas encore relié à notre équipe. Il le sera au lancement du pilote.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="pied">
+  <div class="cadre">
+    <span>Systeme-Pointage, projet pilote pour les PME multi-sites de Dakar.</span>
+    <span>© <span id="annee">2026</span></span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("annee").textContent = new Date().getFullYear();
+
+  // Rapport d'exemple : valider ou corriger une anomalie
+  document.querySelectorAll(".anomalie").forEach(function (ligne) {
+    var etat = ligne.querySelector(".etat");
+    ligne.querySelectorAll("button").forEach(function (bouton) {
+      bouton.addEventListener("click", function () {
+        var valide = bouton.dataset.action === "valider";
+        ligne.classList.toggle("est-validee", valide);
+        ligne.classList.toggle("est-corrigee", !valide);
+        etat.textContent = valide ? "Validée par la RH" : "À corriger par la RH";
+      });
+    });
+  });
+
+  // Formulaire de démo : vérification sans envoi
+  var form = document.getElementById("form-demo");
+  var regles = {
+    nom: function (v) { return v ? "" : "Indiquez votre nom et prénom."; },
+    entreprise: function (v) { return v ? "" : "Indiquez le nom de votre entreprise."; },
+    tel: function (v) {
+      if (!v) return "Indiquez un numéro pour vous rappeler.";
+      return v.replace(/[^\d]/g, "").length >= 9 ? "" : "Le numéro doit comporter au moins 9 chiffres.";
+    },
+    email: function (v) { return !v || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "" : "Vérifiez l'adresse e-mail, par exemple nom@entreprise.sn."; },
+    sites: function (v) { return v ? "" : "Choisissez le nombre de sites."; },
+    effectif: function (v) { return v ? "" : "Choisissez le nombre d'employés."; }
+  };
+
+  function verifier(nom) {
+    var champ = form.elements[nom];
+    var message = regles[nom](champ.value.trim());
+    document.getElementById("err-" + nom).textContent = message;
+    champ.setAttribute("aria-invalid", message ? "true" : "false");
+    return !message;
+  }
+
+  Object.keys(regles).forEach(function (nom) {
+    form.elements[nom].addEventListener("blur", function () {
+      if (this.value.trim() || this.getAttribute("aria-invalid")) verifier(nom);
+    });
+  });
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var premier = null;
+    Object.keys(regles).forEach(function (nom) {
+      if (!verifier(nom) && !premier) premier = form.elements[nom];
+    });
+    if (premier) { premier.focus(); return; }
+    form.hidden = true;
+    var conf = document.getElementById("confirmation");
+    conf.hidden = false;
+    conf.focus();
+  });
+</script>
+</body>
+</html>
