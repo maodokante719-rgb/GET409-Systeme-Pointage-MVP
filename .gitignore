@@ -31,5 +31,10 @@ dist-ssr
 *.sln
 *.sw?
 
+# Variables d'environnement (secrets) — seul .env.example est versionné
+.env
+.env.*
+!.env.example
+
 # Atelier Claude Code (scripts et logs locaux)
 atelier/

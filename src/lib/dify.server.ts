@@ -1,9 +1,11 @@
 const DIFY_URL = "https://api.dify.ai/v1/workflows/run";
-const DIFY_KEY = process.env["DIFY_API_KEY"] ?? "app-7Qw2pZhe54LwKira4PDuq5d1";
 
 export type AgentResult = { ok: true; text: string } | { ok: false; error: string };
 
 export async function runDifyAgent(query: string): Promise<AgentResult> {
+  // Clé lue à l'exécution, côté serveur uniquement : aucune valeur par défaut.
+  const DIFY_KEY = process.env["DIFY_API_KEY"];
+  if (!DIFY_KEY) return { ok: false, error: "Agent non configuré : variable DIFY_API_KEY manquante côté serveur." };
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), 30000);
   try {
