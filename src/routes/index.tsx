@@ -54,6 +54,30 @@ function Home() {
         </div>
       </section>
 
+      <section className="border-y border-border bg-secondary">
+        <div className="mx-auto max-w-5xl px-5 py-20">
+          <p className="text-sm font-medium text-primary">Vidéo · 1 min</p>
+          <h2 className="mt-2 text-3xl font-semibold text-foreground">Systeme-Pointage en une minute</h2>
+          <p className="mt-3 max-w-2xl text-muted-foreground">
+            Au siège, à l'agence, au dépôt ou chez le client : chaque employé pointe avec son téléphone, et la RH retrouve tout au même endroit.
+          </p>
+          <div className="mt-10 overflow-hidden rounded-lg border border-border bg-foreground shadow-sm">
+            <video
+              className="aspect-video w-full"
+              controls
+              playsInline
+              preload="none"
+              poster="/video/systeme-pointage-demo.jpg"
+              aria-label="Vidéo de présentation de Systeme-Pointage"
+            >
+              <source src="/video/systeme-pointage-demo.mp4" type="video/mp4" />
+              Votre navigateur ne peut pas lire cette vidéo.
+            </video>
+          </div>
+          <p className="mt-3 text-xs text-muted-foreground">Film de présentation : scènes illustratives.</p>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-7xl px-5 py-20">
         <h2 className="text-3xl font-semibold text-foreground">Ce qui change pour votre entreprise</h2>
         <div className="mt-10 grid gap-6 md:grid-cols-2">
